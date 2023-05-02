@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+
+  Aria2-Pro:
+    container_name: aria2-pro
+    image: p3terx/aria2-pro
+    environment:
+      - PUID=65534
+      - PGID=65534
+      - UMASK_SET=022
+      - RPC_SECRET=bochi7
+      - RPC_PORT=6800
+      - LISTEN_PORT=6888
+      - DISK_CACHE=64M
+      - IPV6_MODE=false
+      - UPDATE_TRACKERS=true
+      - CUSTOM_TRACKER_URL=
+      - TZ=Europe/Spain
+    volumes:
+      - ${PWD}/aria2-config:/config
+      - ${PWD}/aria2-downloads:/downloads
+    network_mode: host
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+
+# Torrents Web UI
+  AriaNg:
+    container_name: ariang
+    image: p3terx/ariang
+    command: --port 6880 --ipv6
+    network_mode: host
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+#Video Server
+  plex:
+    container_name: plex
+    image: jaymoulin/plex:1.30.1.6562
+    expose:
+      - 32400
+      - 33400
+    environment:
+      - TZ=Europe/Spain
+    volumes:
+      - ${PWD}/Plex Media Server:/root/Library/Application Support/Plex Media Server
+      - ${PWD}/aria2-downloads/Media:/media
+      - ${PWD}/tmp:/tmp
+    restart: unless-stopped
+    network_mode: "host"
+
