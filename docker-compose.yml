@@ -2,7 +2,7 @@ version: "3.8"
 services:
 #torrent
   Aria2-Pro:
-    container_name: aria2-pro
+    container_name: aria2c
     image: p3terx/aria2-pro
     environment:
       - PUID=65534
@@ -28,7 +28,7 @@ services:
 
 # Torrents Web UI
   AriaNg:
-    container_name: ariang
+    container_name: ariaui
     image: p3terx/ariang
     command: --port 6880 --ipv6
     network_mode: host
@@ -39,8 +39,8 @@ services:
         max-size: 1m
 #Video Server
   plex:
-    container_name: plex
-    image: jaymoulin/plex:1.30.1.6562
+    container_name: jay_plex
+    image: jaymoulin/plex
     expose:
       - 32400
       - 33400
@@ -55,7 +55,8 @@ services:
 #File manager: https://docs.technotim.live/posts/meet-file-browser/
   file-browser:
     image: filebrowser/filebrowser
-    container_name: file-browser
+    container_name: fileb
+    #user: id -u user:id -g user
     user: 1000:1000
     ports:
       - 8081:80
