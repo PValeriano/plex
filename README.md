@@ -1,5 +1,5 @@
 # AIO DockerPlex
-Almost-out of the box Plex Media Server with a torrent UI client and an UI to manage your media files. As they are deployed as web services, you dont need to use any coomand besides `docker compose up` once you finish with the [tl:dr](##TLDR) section. <br>
+Almost-out of the box Plex Media Server with a torrent UI client and an UI to manage your media files. As they are deployed as web services, you dont need to use any coomand besides `docker compose up` once you finish with the [tl:dr](#TLDR) section. <br>
 If a video file is not supported by either Plex or the RPi, you can transcode it into a valid format using Jaymolin's [RPi plex video converter](https://github.com/jaymoulin/docker-rpi-plex-video-converter). For it, first clone the Docker image with <br>
 ```
 docker pull ghcr.io/jaymoulin/rpi-plex-video-converter
