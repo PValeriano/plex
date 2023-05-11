@@ -1,5 +1,13 @@
 # AIO DockerPlex
-Almost-out of the box Plex Media Server with a torrent UI client and an UI to manage your media files. As they are deployed as web services, they are fully <br>
+Almost-out of the box Plex Media Server with a torrent UI client and an UI to manage your media files. As they are deployed as web services, you dont need to use any coomand besides `docker compose up` once you finish with the [tl:dr](##TLDR) section. <br>
+If a video file is not supported by either Plex or the RPi, you can transcode it into a valid format using Jaymolin's [RPi plex video converter](https://github.com/jaymoulin/docker-rpi-plex-video-converter). For it, first clone the Docker image with <br>
+```
+docker pull ghcr.io/jaymoulin/rpi-plex-video-converter
+```
+Then run the image with
+```
+docker run --rm -t -v /path/to/your/media/folder:/media jaymoulin/rpi-plex-video-converter
+```
 ### AriaNg's web UI
 <img src="images/AriaNg.png"  width="700"/>
 
@@ -24,10 +32,7 @@ Web UI to manage your torrent downloads.<br>
 Manage your downloaded files through a web interface.<br>
 ### [Jaymoulin's Plex Docker image](https://hub.docker.com/r/jaymoulin/plex/)
 Deploy your Plex Media Server locally. <br>
-Visit Jaymoulin's DockerHub page a [docker-compose](./docker-compose.yml) file to select any specific release.<br>
-Follow the [official documentation]() for configuring your Plex Media Server.
-
-<a name="tldr"></a>
+Visit Jaymoulin's DockerHub page [docker-compose](./docker-compose.yml) to select any specific release.<br>
 
 ## TLDR
 
@@ -47,5 +52,8 @@ Your local endpoints for each services have been deployed in the following ports
 - File Browser: Deployed at localhost:8081
 - Plex Media Server: Deployed at localhost:32400
 <br>\
+
 Disclaimer: All endpoints are available from your phone (and any machine in your local network), but you need to substitute `localhost` with the IP of the machine running the Docker containers. <br>
-For example, if the IP of the machine running the containers is 1111.111.1.1 then you would need to go to 1111.111.1.1:6880 to access the AriaNg portal, and once there you would need to configure the AriaNg session with your RPC password from the new device.
+For example, if the IP of the machine running the containers is 1111.111.1.1 then you would need to go to 1111.111.1.1:6880 to access the AriaNg portal, and once there you would need to configure the AriaNg session with your RPC password from the new device. <br>
+
+Follow the [official documentation](https://support.plex.tv/articles/200264746-quick-start-step-by-step-guides/) for configuring your Plex Media Server.
