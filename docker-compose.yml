@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-#torrent
+  #torrent
   Aria2-Pro:
     container_name: aria2c
     image: p3terx/aria2-pro
@@ -8,24 +8,23 @@ services:
       - PUID=65534
       - PGID=65534
       - UMASK_SET=022
-      - RPC_SECRET=RPC_PLACEHOLDER
+      - RPC_SECRET=${PW}
       - RPC_PORT=6800
       - LISTEN_PORT=6888
       - DISK_CACHE=64M
       - IPV6_MODE=false
       - UPDATE_TRACKERS=true
       - CUSTOM_TRACKER_URL=
-      - TZ=Europe/Spain
+      - TZ=${TZ}
     volumes:
       - ${PWD}/aria2-config:/config
-      - ${PWD}/aria2-downloads:/downloads
+      - ${PLEX_HOME}/media_directory/downloads:/downloads
     network_mode: host
     restart: unless-stopped
     logging:
       driver: json-file
       options:
         max-size: 1m
-
 # Torrents Web UI
   AriaNg:
     container_name: ariaui
@@ -45,24 +44,53 @@ services:
       - 32400
       - 33400
     environment:
-      - TZ=Europe/Spain
+      - TZ=${TZ}
     volumes:
-      - ${PWD}/Plex Media Server:/root/Library/Application Support/Plex Media Server
-      - ${PWD}/aria2-downloads/Media:/media
-      - ${PWD}/tmp:/tmp
+      - ${PLEX_HOME}/plex_config/Plex Media Server:/root/Library/Application Support/Plex Media Server
+      - ${PLEX_HOME}/media_directory/Media:/media
+      - ${PLEX_HOME}/plex_config/tmp:/tmp
     restart: unless-stopped
     network_mode: "host"
-#File manager: https://docs.technotim.live/posts/meet-file-browser/
+#File manager:
   file-browser:
     image: filebrowser/filebrowser
-    container_name: fileb
+    container_name: filebrowser
     #user: id -u user:id -g user
-    user: 1000:1000
+    user: ${PUID}:${PGID}
     ports:
       - 8081:80
     volumes:
-      - ${PWD}/aria2-downloads:/srv
-      - ${PWD}/filebrowser/filebrowser.db:/database.db
+      - ${PLEX_HOME}/media_directory:/srv
+      - ${PLEX_HOME}/Filebrowser/filebrowser.db:/database.db
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
+  #################
+  sonarr:
+    image: mdhiggins/sonarr-sma:latest-armhf
+    container_name: sonarr
+    volumes:
+      - ${PWD}/Sonarr:/config
+      - ${PWD}/Sonarr/sma:/usr/local/sma/config
+      - ${PLEX_HOME}/media_directory/Media:/tv
+      - ${PLEX_HOME}/media_directory/downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+  #################
+  jackett:
+    image: lscr.io/linuxserver/jackett::0.21.185
+    container_name: jackett
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${PWD}/Jackett:/config
+      - ${PLEX_HOME}/media_directory/downloads:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped

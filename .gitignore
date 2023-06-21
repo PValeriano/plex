@@ -3,3 +3,6 @@ Plex Media Server/*
 aria2-config/dht.dat
 aria2-config/tracker.log
 filebrowser/filebrowser.db
+Bazarr/
+Jackett/
+Sonarr/

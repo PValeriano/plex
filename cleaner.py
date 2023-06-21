@@ -1,10 +1,16 @@
 from pathlib import Path
+from dotenv import load_dotenv
 import os
 import logging
+logging.getLogger().setLevel(logging.INFO)
 
-DOWNLOAD_ROOT = os.environ["PWD"]
-path = Path(f"{DOWNLOAD_ROOT}/aria2-downloads")
+load_dotenv()
 
-[(x.unlink(missing_ok=True),
-  logging.info(f"Deleting {x}"))
-  for x in path.iterdir() if x.suffix == ".torrent"]
+DOWNLOAD_ROOT = os.environ["PLEX_HOME"]
+path = Path(f"{DOWNLOAD_ROOT}/media_directory/downloads")
+
+[
+    (x.unlink(missing_ok=True), logging.info(f"Deleting {x}"))
+    for x in path.iterdir()
+    if x.suffix == ".torrent"
+]
