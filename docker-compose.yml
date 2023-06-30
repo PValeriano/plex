@@ -67,7 +67,8 @@ services:
       - no-new-privileges:true
   #################
   sonarr:
-    image: mdhiggins/sonarr-sma:latest-armhf
+    ## Rasbian32 -> image: mdhiggins/sonarr-sma:latest-armhf
+    image: lscr.io/linuxserver/sonarr
     container_name: sonarr
     volumes:
       - ${PWD}/Sonarr:/config
@@ -82,7 +83,8 @@ services:
       - PGID=${PGID}
   #################
   jackett:
-    image: lscr.io/linuxserver/jackett::0.21.185
+    #Raspbian32 -> image: lscr.io/linuxserver/jackett:0.21.185
+    image: lscr.io/linuxserver/jackett
     container_name: jackett
     environment:
       - PUID=${PUID}
