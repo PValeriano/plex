@@ -18,7 +18,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ${PWD}/aria2-config:/config
-      - ${PLEX_HOME}/media_directory/downloads:/downloads
+      - ${DOWNLOADS}:/downloads
     network_mode: host
     restart: unless-stopped
     logging:
@@ -46,9 +46,9 @@ services:
     environment:
       - TZ=${TZ}
     volumes:
-      - ${PLEX_HOME}/plex_config/Plex Media Server:/root/Library/Application Support/Plex Media Server
-      - ${PLEX_HOME}/media_directory/Media:/media
-      - ${PLEX_HOME}/plex_config/tmp:/tmp
+      - ${PLEX}/plex_config/Plex Media Server:/root/Library/Application Support/Plex Media Server
+      - ${MEDIA_DIRECTORY}:/media
+      - ${PLEX}/plex_config/tmp:/tmp
     restart: unless-stopped
     network_mode: "host"
 #File manager:
@@ -60,8 +60,8 @@ services:
     ports:
       - 8081:80
     volumes:
-      - ${PLEX_HOME}/media_directory:/srv
-      - ${PLEX_HOME}/Filebrowser/filebrowser.db:/database.db
+      - ${MEDIA_DIRECTORY}:/srv
+      - ${FILEBROWSER}/filebrowser.db:/database.db
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -71,10 +71,10 @@ services:
     image: lscr.io/linuxserver/sonarr
     container_name: sonarr
     volumes:
-      - ${PWD}/Sonarr:/config
-      - ${PWD}/Sonarr/sma:/usr/local/sma/config
-      - ${PLEX_HOME}/media_directory/Media:/tv
-      - ${PLEX_HOME}/media_directory/downloads:/downloads
+      - ${SONARR}:/config
+      - ${SONARR}/sma:/usr/local/sma/config
+      - ${MEDIA_DIRECTORY}:/tv
+      - ${DOWNLOADS}:/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -91,8 +91,8 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
     volumes:
-      - ${PWD}/Jackett:/config
-      - ${PLEX_HOME}/media_directory/downloads:/downloads
+      - ${JACKETT}:/config
+      - ${DOWNLOADS}:/downloads
     ports:
       - 9117:9117
     restart: unless-stopped
