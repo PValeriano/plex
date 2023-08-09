@@ -1,7 +1,6 @@
 aria2-downloads/TV Shows/*
 Plex Media Server/*
-aria2-config/dht.dat
-aria2-config/tracker.log
+aria2-config/*
 filebrowser/filebrowser.db
 Bazarr/
 Jackett/
