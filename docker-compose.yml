@@ -18,7 +18,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ${ARIA2}:/config
-      - ${DOWNLOADS}:/downloads
+      - ${DOWNLOADS}:/data/downloads
     network_mode: host
     restart: unless-stopped
     logging:
@@ -47,24 +47,24 @@ services:
       - TZ=${TZ}
     volumes:
       - ${PLEX}/plex_config/Plex Media Server:/root/Library/Application Support/Plex Media Server
-      - ${GENERAL_MEDIA}:/media
+      - ${GENERAL_MEDIA}:/data/media
       - ${PLEX}/plex_config/tmp:/tmp
     restart: unless-stopped
     network_mode: "host"
 #File manager:
-  file-browser:
-    image: filebrowser/filebrowser
-    container_name: filebrowser
-    #user: id -u user:id -g user
-    user: ${PUID}:${PGID}
-    ports:
-      - 8081:80
-    volumes:
-      - ${MEDIA_DIRECTORY}:/srv
-      - ${FILEBROWSER}/filebrowser.db:/database.db
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
+#  file-browser:
+#    image: filebrowser/filebrowser
+#    container_name: filebrowser
+#    #user: id -u user:id -g user
+#    user: ${PUID}:${PGID}
+#    ports:
+#      - 8081:80
+#    volumes:
+#      - ${MEDIA_DIRECTORY}:/srv
+#      - ${FILEBROWSER}/filebrowser.db:/database.db
+#    restart: unless-stopped
+#    security_opt:
+#      - no-new-privileges:true
   #################
   sonarr:
     ## Rasbian32 -> image: mdhiggins/sonarr-sma:latest-armhf
@@ -75,8 +75,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${SONARR}:/config
-      - ${GENERAL_MEDIA}:/media
-      - ${DOWNLOADS}:/downloads
+      - ${MEDIA_DIRECTORY}:/data
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -94,7 +93,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ${JACKETT}:/config
-      - ${DOWNLOADS}:/downloads
+      - ${DOWNLOADS}:/data/downloads
     ports:
       - 9117:9117
     restart: unless-stopped
