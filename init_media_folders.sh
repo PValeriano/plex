@@ -1,5 +1,5 @@
 source ./.env
-SERVICE_HOME=~/Escritorio/plex_8k
+#SERVICE_HOME=~/Escritorio/plex_8k
 
 #Creación de carpetas
 #Media root
@@ -14,7 +14,7 @@ fi
 #Filebrowser
 if [ -d $FILEBROWSER ] ; then
     echo "$FILEBROWSER exists."
-    if [! -e $FILEBROWSER/filebroser.db ] ; then
+    if [! -e $FILEBROWSER/filebrowser.db ] ; then
         echo "Creando filebrowser.db"
         touch $FILEBROWSER/filebrowser.db
     fi

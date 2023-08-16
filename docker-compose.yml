@@ -17,7 +17,7 @@ services:
       - CUSTOM_TRACKER_URL=
       - TZ=${TZ}
     volumes:
-      - ${PWD}/aria2-config:/config
+      - ${ARIA2}:/config
       - ${DOWNLOADS}:/downloads
     network_mode: host
     restart: unless-stopped
@@ -38,7 +38,7 @@ services:
         max-size: 1m
 #Video Server
   plex:
-    container_name: jay_plex
+    container_name: plex
     image: jaymoulin/plex
     expose:
       - 32400
@@ -47,7 +47,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ${PLEX}/plex_config/Plex Media Server:/root/Library/Application Support/Plex Media Server
-      - ${MEDIA_DIRECTORY}:/media
+      - ${GENERAL_MEDIA}:/media
       - ${PLEX}/plex_config/tmp:/tmp
     restart: unless-stopped
     network_mode: "host"
@@ -70,10 +70,12 @@ services:
     ## Rasbian32 -> image: mdhiggins/sonarr-sma:latest-armhf
     image: lscr.io/linuxserver/sonarr
     container_name: sonarr
+    logging:
+      driver: json-file
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - ${SONARR}:/config
-      - ${SONARR}/sma:/usr/local/sma/config
-      - ${MEDIA_DIRECTORY}:/tv
+      - ${GENERAL_MEDIA}:/media
       - ${DOWNLOADS}:/downloads
     ports:
       - 8989:8989
